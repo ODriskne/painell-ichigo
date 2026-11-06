@@ -36,14 +36,12 @@
             height: 100vh;
             background-size: cover;
             background-position: center;
-            /* Aplica um desfoque elegante e escurece a imagem para manter o painel legível */
             filter: blur(8px) brightness(0.35);
             transform: scale(1.05);
             transition: background-image 1s ease-in-out;
             z-index: -2;
         }
 
-        /* Película escura adicional para dar contraste ao painel */
         .bg-overlay {
             position: fixed;
             top: 0;
@@ -54,7 +52,6 @@
             z-index: -1;
         }
         
-        /* Título com fonte e brilho dinâmico */
         #main-title { 
             font-family: 'Cinzel Decorative', Georgia, serif !important;
             font-size: 2.2rem;
@@ -189,7 +186,6 @@
 </head>
 <body>
 
-    <!-- Camadas de Fundo Dinâmico -->
     <div id="bg-transition-layer"></div>
     <div class="bg-overlay"></div>
 
@@ -226,7 +222,7 @@
             "DEFEITO1": {
                 nome: "Shikai (Zangetsu)",
                 status: "Alerta em DEFEITO 1",
-                imagem: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=400",
+                imagem: "https://i.redd.it/4xbr4iy18ho91.jpg", // Imagem aplicada aqui!
                 corDestaque: "#38bdf8",
                 brilhoTitulo: "0 0 15px rgba(56, 189, 248, 0.9), 0 0 30px rgba(56, 189, 248, 0.5)"
             },
@@ -309,15 +305,12 @@
                     document.getElementById('char-status').innerText = dados.status;
                     document.getElementById('char-image').src = dados.imagem;
                     
-                    // Altera o fundo para usar a imagem da transformação ativa com transição suave de 1s
                     bgLayer.style.backgroundImage = `url('${dados.imagem}')`;
                     
-                    // Altera o brilho e cor do título principal
                     const titulo = document.getElementById('main-title');
                     titulo.style.textShadow = dados.brilhoTitulo;
                     titulo.style.color = dados.corDestaque;
                     
-                    // Altera a borda do card do personagem
                     const cardBox = document.getElementById('char-card-box');
                     cardBox.style.borderColor = dados.corDestaque;
                     cardBox.style.boxShadow = `0 10px 30px ${dados.corDestaque}66`;

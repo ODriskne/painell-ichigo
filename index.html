@@ -109,13 +109,17 @@
             background: #090d16;
             position: relative;
             box-shadow: inset 0 0 15px rgba(0,0,0,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .character-image-container img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            object-position: center 20%; 
+            /* Centralizado perfeitamente para equilibrar o conteúdo da imagem do Pinterest */
+            object-position: center 35%; 
             transition: opacity 0.4s ease, transform 0.4s ease;
         }
 
@@ -381,4 +385,5 @@
         setInterval(buscarEstadosIniciais, 3000);
     </script>
 </body>
+</html>
 </html>

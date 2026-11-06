@@ -109,17 +109,14 @@
             background: #090d16;
             position: relative;
             box-shadow: inset 0 0 15px rgba(0,0,0,0.8);
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
         .character-image-container img {
             width: 100%;
             height: 100%;
-            /* 'contain' faz com que a imagem inteira apareça encaixada e centralizada sem cortes */
-            object-fit: contain; 
-            object-position: center center; 
+            object-fit: cover;
+            /* Ajustado para focar na parte central/inferior da imagem da Bankai */
+            object-position: center 65%; 
             transition: opacity 0.4s ease, transform 0.4s ease;
         }
 

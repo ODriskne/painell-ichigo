@@ -16,10 +16,6 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #0f172a;
-            /* Fundo dinâmico padrão */
-            background-image: radial-gradient(circle at 50% 20%, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 1) 100%);
-            background-size: cover;
-            background-attachment: fixed;
             color: #f8fafc;
             display: flex;
             flex-direction: column;
@@ -27,10 +23,38 @@
             min-height: 100vh;
             margin: 0;
             padding: 20px;
-            transition: background 0.6s ease;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Camada de Fundo Dinâmico com Transição Suave */
+        #bg-transition-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-size: cover;
+            background-position: center;
+            /* Aplica um desfoque elegante e escurece a imagem para manter o painel legível */
+            filter: blur(8px) brightness(0.35);
+            transform: scale(1.05);
+            transition: background-image 1s ease-in-out;
+            z-index: -2;
+        }
+
+        /* Película escura adicional para dar contraste ao painel */
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(15, 23, 42, 0.75);
+            z-index: -1;
         }
         
-        /* Título com fonte e brilho dinâmico via ID */
+        /* Título com fonte e brilho dinâmico */
         #main-title { 
             font-family: 'Cinzel Decorative', Georgia, serif !important;
             font-size: 2.2rem;
@@ -39,10 +63,11 @@
             text-shadow: 0 2px 8px rgba(0,0,0,0.8);
             letter-spacing: 2px;
             text-align: center;
-            transition: text-shadow 0.5s ease, color 0.5s ease;
+            transition: text-shadow 0.6s ease, color 0.6s ease;
+            z-index: 1;
         }
 
-        p { color: #cbd5e1; margin-bottom: 25px; text-shadow: 0 2px 4px rgba(0,0,0,0.8); font-weight: 600; }
+        p { color: #cbd5e1; margin-bottom: 25px; text-shadow: 0 2px 4px rgba(0,0,0,0.8); font-weight: 600; z-index: 1; }
 
         .main-container {
             display: flex;
@@ -52,6 +77,7 @@
             max-width: 1200px;
             justify-content: center;
             align-items: flex-start;
+            z-index: 1;
         }
 
         .grid-container {
@@ -75,7 +101,7 @@
             width: 320px;
             position: sticky;
             top: 20px;
-            transition: border-color 0.5s ease, box-shadow 0.5s ease;
+            transition: border-color 0.6s ease, box-shadow 0.6s ease;
         }
 
         .character-image-container {
@@ -92,7 +118,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: opacity 0.3s ease, transform 0.3s ease;
+            transition: opacity 0.4s ease, transform 0.4s ease;
         }
 
         .character-info {
@@ -163,6 +189,10 @@
 </head>
 <body>
 
+    <!-- Camadas de Fundo Dinâmico -->
+    <div id="bg-transition-layer"></div>
+    <div class="bg-overlay"></div>
+
     <h1 id="main-title">PAINEL DE CONTROLE - BLEACH</h1>
     <p>Monitoramento de Relés e Transformações do Ichigo</p>
 
@@ -185,13 +215,11 @@
         const container = document.getElementById('painel-reles');
         const totalReles = 8;
 
-        // Configuração exata de fundo com formas radiais de energia, cor de destaque e brilho no título
         const transformacoesIchigo = {
             "NENHUM": {
                 nome: "Ichigo Kurosaki (Padrão)",
                 status: "Sistema Operando Normalmente",
                 imagem: "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=400",
-                fundo: "radial-gradient(circle at 50% 20%, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 1) 100%)",
                 corDestaque: "rgba(255, 255, 255, 0.15)",
                 brilhoTitulo: "0 2px 8px rgba(0,0,0,0.8)"
             },
@@ -199,7 +227,6 @@
                 nome: "Shikai (Zangetsu)",
                 status: "Alerta em DEFEITO 1",
                 imagem: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=400",
-                fundo: "radial-gradient(circle at 30% 30%, rgba(56, 189, 248, 0.35) 0%, rgba(7, 16, 27, 0.95) 70%), linear-gradient(135deg, #022338 0%, #07101b 100%)",
                 corDestaque: "#38bdf8",
                 brilhoTitulo: "0 0 15px rgba(56, 189, 248, 0.9), 0 0 30px rgba(56, 189, 248, 0.5)"
             },
@@ -207,7 +234,6 @@
                 nome: "Bankai (Tensa Zangetsu)",
                 status: "Alerta em DEFEITO 2",
                 imagem: "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=400",
-                fundo: "radial-gradient(circle at 70% 30%, rgba(161, 161, 170, 0.35) 0%, rgba(9, 9, 11, 0.95) 70%), linear-gradient(135deg, #18181b 0%, #09090b 100%)",
                 corDestaque: "#71717a",
                 brilhoTitulo: "0 0 15px rgba(228, 228, 231, 0.9), 0 0 30px rgba(113, 113, 122, 0.5)"
             },
@@ -215,7 +241,6 @@
                 nome: "Máscara Hollow Parcial",
                 status: "Alerta em DEFEITO 3",
                 imagem: "https://images.unsplash.com/photo-1563089145-599997674d42?w=400",
-                fundo: "radial-gradient(circle at 50% 40%, rgba(245, 158, 11, 0.4) 0%, rgba(18, 11, 2, 0.95) 70%), linear-gradient(135deg, #3d2207 0%, #120b02 100%)",
                 corDestaque: "#f59e0b",
                 brilhoTitulo: "0 0 20px rgba(245, 158, 11, 0.95), 0 0 40px rgba(217, 119, 6, 0.6)"
             },
@@ -223,7 +248,6 @@
                 nome: "Full Hollow (Vasto Lorde)",
                 status: "Alerta Crítico - DEFEITO 4",
                 imagem: "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=400",
-                fundo: "radial-gradient(circle at 40% 60%, rgba(239, 68, 68, 0.45) 0%, rgba(17, 2, 2, 0.95) 70%), linear-gradient(135deg, #450a0a 0%, #110202 100%)",
                 corDestaque: "#ef4444",
                 brilhoTitulo: "0 0 25px rgba(239, 68, 68, 1), 0 0 50px rgba(185, 28, 28, 0.7)"
             },
@@ -231,7 +255,6 @@
                 nome: "Ichigo Final (Mugetsu)",
                 status: "Alerta em DEFEITO 5",
                 imagem: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400",
-                fundo: "radial-gradient(circle at 60% 40%, rgba(168, 85, 247, 0.4) 0%, rgba(6, 2, 12, 0.95) 70%), linear-gradient(135deg, #20103d 0%, #06020c 100%)",
                 corDestaque: "#a855f7",
                 brilhoTitulo: "0 0 25px rgba(168, 85, 247, 1), 0 0 50px rgba(126, 34, 206, 0.7)"
             },
@@ -239,7 +262,6 @@
                 nome: "Fullbring Shikai",
                 status: "Alerta em DEFEITO 6",
                 imagem: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=400",
-                fundo: "radial-gradient(circle at 40% 40%, rgba(16, 185, 129, 0.35) 0%, rgba(1, 12, 8, 0.95) 70%), linear-gradient(135deg, #063828 0%, #010c08 100%)",
                 corDestaque: "#10b981",
                 brilhoTitulo: "0 0 20px rgba(16, 185, 129, 0.9), 0 0 40px rgba(5, 150, 105, 0.6)"
             },
@@ -247,7 +269,6 @@
                 nome: "True Bankai",
                 status: "Alerta em DEFEITO 7",
                 imagem: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=400",
-                fundo: "radial-gradient(circle at 50% 50%, rgba(6, 182, 212, 0.4) 0%, rgba(3, 8, 17, 0.95) 70%), linear-gradient(135deg, #0d2b45 0%, #030811 100%)",
                 corDestaque: "#06b6d4",
                 brilhoTitulo: "0 0 20px rgba(6, 182, 212, 0.9), 0 0 40px rgba(8, 145, 178, 0.6)"
             },
@@ -255,7 +276,6 @@
                 nome: "Horn of Salvation",
                 status: "Alerta Máximo - DEFEITO 8",
                 imagem: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=400",
-                fundo: "radial-gradient(circle at 50% 30%, rgba(234, 179, 8, 0.45) 0%, rgba(15, 8, 1, 0.95) 70%), linear-gradient(135deg, #3d2705 0%, #0f0801 100%)",
                 corDestaque: "#eab308",
                 brilhoTitulo: "0 0 25px rgba(234, 179, 8, 1), 0 0 50px rgba(202, 138, 4, 0.7)"
             }
@@ -277,6 +297,7 @@
 
         function atualizarVisualPersonagem() {
             let ativoEncontrado = false;
+            const bgLayer = document.getElementById('bg-transition-layer');
 
             for (let i = 1; i <= totalReles; i++) {
                 const defectKey = `DEFEITO${i}`;
@@ -288,10 +309,10 @@
                     document.getElementById('char-status').innerText = dados.status;
                     document.getElementById('char-image').src = dados.imagem;
                     
-                    // Altera diretamente o fundo da página com formas radiais e gradientes
-                    document.body.style.backgroundImage = dados.fundo;
+                    // Altera o fundo para usar a imagem da transformação ativa com transição suave de 1s
+                    bgLayer.style.backgroundImage = `url('${dados.imagem}')`;
                     
-                    // Altera diretamente o brilho e a cor do título
+                    // Altera o brilho e cor do título principal
                     const titulo = document.getElementById('main-title');
                     titulo.style.textShadow = dados.brilhoTitulo;
                     titulo.style.color = dados.corDestaque;
@@ -312,7 +333,7 @@
                 document.getElementById('char-status').innerText = padrao.status;
                 document.getElementById('char-image').src = padrao.imagem;
                 
-                document.body.style.backgroundImage = padrao.fundo;
+                bgLayer.style.backgroundImage = `url('${padrao.imagem}')`;
                 
                 const titulo = document.getElementById('main-title');
                 titulo.style.textShadow = padrao.brilhoTitulo;

@@ -114,9 +114,10 @@
         .character-image-container img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            /* Centralizado focado na parte superior (rosto/cabelo) */
-            object-position: center 20%; 
+            /* 'contain' garante que a imagem inteira apareça sem cortes, ou 'cover' se preferir preencher todo o card */
+            object-fit: cover; 
+            /* Ajuste fino da centralização: horizontal e vertical (ex: centralizado perfeitamente no rosto) */
+            object-position: center 25%; 
             transition: opacity 0.4s ease, transform 0.4s ease;
         }
 
@@ -231,7 +232,7 @@
             "DEFEITO2": {
                 nome: "Bankai (Tensa Zangetsu)",
                 status: "Alerta em DEFEITO 2",
-                imagem: "bankai.jpg", // A apontar para o ficheiro local no repositório
+                imagem: "bankai.jpg",
                 corDestaque: "#71717a",
                 brilhoTitulo: "0 0 15px rgba(228, 228, 231, 0.9), 0 0 30px rgba(113, 113, 122, 0.5)"
             },

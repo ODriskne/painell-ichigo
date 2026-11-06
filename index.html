@@ -4,16 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel Interativo - Ichigo Kurosaki</title>
-    <!-- Importando uma fonte com estilo pincelado/gótico inspirada em Bleach -->
+    <!-- Importando a fonte do Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Segoe+UI:wght@400;600&display=swap" rel="stylesheet">
     <style>
         * {
             box-sizing: border-box;
         }
+
+        :root {
+            --bg-color: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            /* O fundo agora tem uma transição suave de cor controlada pelo JS */
-            background: var(--bg-color, linear-gradient(135deg, #0f172a 0%, #1e293b 100%));
+            background: var(--bg-color);
             color: #f8fafc;
             display: flex;
             flex-direction: column;
@@ -24,19 +30,18 @@
             transition: background 0.8s ease;
         }
         
-        /* Aplicando a fonte temática no título */
+        /* Forçando a aplicação da fonte de Bleach com fallback */
         h1 { 
-            font-family: 'Cinzel Decorative', serif;
+            font-family: 'Cinzel Decorative', Georgia, serif !important;
             font-size: 2.2rem;
             color: #f1f5f9; 
             margin-bottom: 5px; 
-            text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+            text-shadow: 0 2px 8px rgba(0,0,0,0.6);
             letter-spacing: 2px;
             text-align: center;
         }
         p { color: #94a3b8; margin-bottom: 25px; }
 
-        /* Layout Principal em Grid (Painel + Personagem) */
         .main-container {
             display: flex;
             flex-wrap: wrap;
@@ -55,9 +60,8 @@
             min-width: 300px;
         }
 
-        /* Card do Personagem (Moderno / Estilo Anime) */
         .character-card {
-            background: rgba(30, 41, 59, 0.7);
+            background: rgba(30, 41, 59, 0.75);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             padding: 20px;
@@ -107,7 +111,6 @@
             color: #cbd5e1;
         }
 
-        /* Cards dos Relés */
         .card {
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.08);
@@ -127,7 +130,6 @@
         }
         .card h3 { margin: 0 0 15px 0; color: #f1f5f9; font-size: 1rem; }
         
-        /* Custom Toggle Switch */
         .switch {
             position: relative;
             display: inline-block;
@@ -162,15 +164,11 @@
     <p>Monitoramento de Relés e Transformações do Ichigo</p>
 
     <div class="main-container">
-        <!-- Grid dos Botões de Relé -->
-        <div class="grid-container" id="painel-reles">
-            <!-- Os botões serão injetados aqui via JS -->
-        </div>
+        <div class="grid-container" id="painel-reles"></div>
 
-        <!-- Card Moderno do Personagem -->
         <div class="character-card" id="char-card-box">
             <div class="character-image-container">
-                <img id="char-image" src="https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=400" alt="Ichigo Kurosaki">
+                <img id="char-image" src="https://images.unsplash.com/photo-1534447677768-be436bb09401?w=400" alt="Ichigo Kurosaki">
             </div>
             <div class="character-info">
                 <h3 id="char-name">Humano / Shinigami Substituto</h3>
@@ -184,7 +182,6 @@
         const container = document.getElementById('painel-reles');
         const totalReles = 8;
 
-        // Mapeamento das Transformações com suas respectivas imagens e cores temáticas de ambiente
         const transformacoesIchigo = {
             "NENHUM": {
                 nome: "Ichigo Kurosaki (Padrão)",
@@ -197,61 +194,60 @@
                 nome: "Shikai (Zangetsu)",
                 status: "Alerta em DEFEITO 1",
                 imagem: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=400",
-                corAmbiente: "linear-gradient(135deg, #091f2c 0%, #0f172a 100%)",
+                corAmbiente: "linear-gradient(135deg, #091f2c 0%, #030712 100%)",
                 corDestaque: "#38bdf8"
             },
             "DEFEITO2": {
                 nome: "Bankai (Tensa Zangetsu)",
                 status: "Alerta em DEFEITO 2",
                 imagem: "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=400",
-                corAmbiente: "linear-gradient(135deg, #18181b 0%, #27272a 100%)",
+                corAmbiente: "linear-gradient(135deg, #18181b 0%, #09090b 100%)",
                 corDestaque: "#71717a"
             },
             "DEFEITO3": {
                 nome: "Máscara Hollow Parcial",
                 status: "Alerta em DEFEITO 3",
                 imagem: "https://images.unsplash.com/photo-1563089145-599997674d42?w=400",
-                corAmbiente: "linear-gradient(135deg, #2a1b09 0%, #1c1408 100%)",
+                corAmbiente: "linear-gradient(135deg, #2a1b09 0%, #0d0803 100%)",
                 corDestaque: "#f59e0b"
             },
             "DEFEITO4": {
                 nome: "Full Hollow (Vasto Lorde)",
                 status: "Alerta Crítico - DEFEITO 4",
                 imagem: "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=400",
-                corAmbiente: "linear-gradient(135deg, #2e0808 0%, #110404 100%)",
+                corAmbiente: "linear-gradient(135deg, #2e0808 0%, #0f0202 100%)",
                 corDestaque: "#ef4444"
             },
             "DEFEITO5": {
                 nome: "Ichigo Final (Mugetsu)",
                 status: "Alerta em DEFEITO 5",
                 imagem: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400",
-                corAmbiente: "linear-gradient(135deg, #140b24 0%, #0a0512 100%)",
+                corAmbiente: "linear-gradient(135deg, #140b24 0%, #05020a 100%)",
                 corDestaque: "#a855f7"
             },
             "DEFEITO6": {
                 nome: "Fullbring Shikai",
                 status: "Alerta em DEFEITO 6",
                 imagem: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=400",
-                corAmbiente: "linear-gradient(135deg, #06241a 0%, #03130e 100%)",
+                corAmbiente: "linear-gradient(135deg, #06241a 0%, #010c08 100%)",
                 corDestaque: "#10b981"
             },
             "DEFEITO7": {
                 nome: "True Bankai",
                 status: "Alerta em DEFEITO 7",
                 imagem: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=400",
-                corAmbiente: "linear-gradient(135deg, #0c1e2c 0%, #050d14 100%)",
+                corAmbiente: "linear-gradient(135deg, #0c1e2c 0%, #02060a 100%)",
                 corDestaque: "#06b6d4"
             },
             "DEFEITO8": {
                 nome: "Horn of Salvation",
                 status: "Alerta Máximo - DEFEITO 8",
                 imagem: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=400",
-                corAmbiente: "linear-gradient(135deg, #2b1d07 0%, #120c02 100%)",
-                corDestaqe: "#eab308"
+                corAmbiente: "linear-gradient(135deg, #2b1d07 0%, #0a0601 100%)",
+                corDestaque: "#eab308"
             }
         };
 
-        // Cria os botões na tela automaticamente
         for (let i = 1; i <= totalReles; i++) {
             const defectKey = `DEFEITO${i}`;
             const card = document.createElement('div');
@@ -266,7 +262,6 @@
             container.appendChild(card);
         }
 
-        // Atualiza a imagem, texto e cores dinâmicas do ambiente
         function atualizarVisualPersonagem() {
             let ativoEncontrado = false;
 
@@ -280,30 +275,34 @@
                     document.getElementById('char-status').innerText = dados.status;
                     document.getElementById('char-image').src = dados.imagem;
                     
-                    // Altera a cor de fundo do ambiente e a borda do card do personagem
-                    document.body.style.setProperty('--bg-color', dados.corAmbiente);
-                    document.getElementById('char-card-box').style.borderColor = dados.corDestaque;
-                    document.getElementById('char-card-box').style.boxShadow = `0 10px 25px ${dados.corDestaque}40`;
+                    // Altera diretamente no elemento raiz do documento
+                    document.documentElement.style.setProperty('--bg-color', dados.corAmbiente);
+                    document.body.style.background = dados.corAmbiente;
+                    
+                    const cardBox = document.getElementById('char-card-box');
+                    cardBox.style.borderColor = dados.corDestaque;
+                    cardBox.style.boxShadow = `0 10px 25px ${dados.corDestaque}55`;
                     
                     ativoEncontrado = true;
                     break; 
                 }
             }
 
-            // Retorna ao estado padrão caso nenhum relé esteja ligado
             if (!ativoEncontrado) {
                 const padrao = transformacoesIchigo["NENHUM"];
                 document.getElementById('char-name').innerText = padrao.nome;
                 document.getElementById('char-status').innerText = padrao.status;
                 document.getElementById('char-image').src = padrao.imagem;
                 
-                document.body.style.setProperty('--bg-color', padrao.corAmbiente);
-                document.getElementById('char-card-box').style.borderColor = 'rgba(255, 255, 255, 0.1)';
-                document.getElementById('char-card-box').style.boxShadow = '0 10px 25px rgba(0,0,0,0.4)';
+                document.documentElement.style.setProperty('--bg-color', padrao.corAmbiente);
+                document.body.style.background = padrao.corAmbiente;
+                
+                const cardBox = document.getElementById('char-card-box');
+                cardBox.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                cardBox.style.boxShadow = '0 10px 25px rgba(0,0,0,0.4)';
             }
         }
 
-        // Envia o estado atualizado via requisição HTTP PUT
         function atualizarFirebase(chave, status) {
             fetch(`${databaseURL}/${chave}.json`, {
                 method: 'PUT',
@@ -321,7 +320,6 @@
             .catch(error => console.error("Erro ao enviar comando:", error));
         }
 
-        // Busca todos os estados de uma vez só na raiz do banco de dados
         function buscarEstadosIniciais() {
             fetch(`${databaseURL}/.json`)
                 .then(res => {
@@ -343,7 +341,6 @@
                 .catch(err => console.log("Aguardando resposta ou sem dados no Firebase..."));
         }
 
-        // Sincroniza ao abrir e repete a cada 3 segundos
         buscarEstadosIniciais();
         setInterval(buscarEstadosIniciais, 3000);
     </script>

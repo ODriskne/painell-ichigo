@@ -117,9 +117,9 @@
         .character-image-container img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            /* Centralizado perfeitamente para equilibrar o conteúdo da imagem do Pinterest */
-            object-position: center 35%; 
+            /* Altera para 'contain' para mostrar a imagem inteira centralizada sem cortes */
+            object-fit: contain; 
+            object-position: center center; 
             transition: opacity 0.4s ease, transform 0.4s ease;
         }
 
@@ -385,5 +385,4 @@
         setInterval(buscarEstadosIniciais, 3000);
     </script>
 </body>
-</html>
 </html>
